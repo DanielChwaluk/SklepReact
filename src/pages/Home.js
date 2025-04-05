@@ -2,10 +2,22 @@ import React, { useState } from "react";
 import { Soundtracki, Gry, Filmy } from "../Dane.js";
 import Stopka from './Stopka.js';
 import './home.css';
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+
 
 const Home = () => {
 
+    const { dodajDoKoszyka} = useContext(CartContext);
+    const { dodajKoszta, koszt} = useContext(CartContext);
+
     const [produkty, setProdukty] = useState([...Soundtracki, ...Gry, ...Filmy]);
+
+    function Dodaj(e){
+        dodajDoKoszyka(e);
+        dodajKoszta(e.cena);
+    }
+
     function UstawKatGry(){
         setProdukty(Gry);
     }
@@ -21,7 +33,7 @@ const Home = () => {
 
     return(
     <div className="text-white bg-dark">
-        <h1>Zagramy partyjkę w gwinta?</h1>
+        <h1>Sklep u Chwaluka</h1>
         <div className="container d-flex justify-content-center align-items-center gap-3 py-4">
             <button onClick={UstawKatAll} className="btn btn-info fs-3">Wszystko</button>
             <button onClick={UstawKatGry} className="btn btn-info fs-3">Gry</button>
@@ -37,7 +49,7 @@ const Home = () => {
                 </div>
                 <h5 className="text-light">{e.opis}</h5>
                 <div className="d-flex gap-3 justify-content-center">
-                    <button className="btn btn-success">Dodaj do koszyka</button>
+                    <button className="btn btn-success" onClick={()=>Dodaj(e)}>Dodaj do koszyka</button>
                     <h3 className="text-warning">{e.cena}zł</h3>
                 </div>
             </div>
